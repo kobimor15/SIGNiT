@@ -36,8 +36,19 @@ while True:
         if aspectRatio > 1:
             k = imgSize / h
             wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
+            #KOBI
+            if imgCrop is None:
+                print("ITS NONE - fail")
+            try:
+            #end
+                imgResize = cv2.resize(imgCrop, (wCal, imgSize))
+                imgResizeShape = imgResize.shape
+            #KOBI
+            except:
+                print("Warning: Hand out of screen!")
+                continue
+            #end
+
             wGap = math.ceil((imgSize - wCal) / 2)
             imgWhite[:, wGap:wCal + wGap] = imgResize
             prediction, index = classifier.getPrediction(imgWhite, draw=False)
@@ -46,8 +57,19 @@ while True:
         else:
             k = imgSize / w
             hCal = math.ceil(k * h)
-            imgResize = cv2.resize(imgCrop, (imgSize, hCal))
-            imgResizeShape = imgResize.shape
+            # KOBI
+            if imgCrop is None:
+                print("ITS NONE - fail")
+            try:
+                # end
+                imgResize = cv2.resize(imgCrop, (imgSize, hCal))
+                imgResizeShape = imgResize.shape
+            # KOBI
+            except:
+                print("Warning: Hand out of screen!")
+                continue
+            # end
+
             hGap = math.ceil((imgSize - hCal) / 2)
             imgWhite[hGap:hCal + hGap, :] = imgResize
             prediction, index = classifier.getPrediction(imgWhite, draw=False)
